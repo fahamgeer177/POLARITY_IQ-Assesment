@@ -1,0 +1,10 @@
+pandas
+openpyxl
+numpy
+openai
+python-dotenv
+faiss-cpu
+scikit-learn
+joblib
+streamlit
+pycountry
