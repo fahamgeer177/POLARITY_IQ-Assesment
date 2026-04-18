@@ -70,68 +70,174 @@ This system is intentionally designed with the following principles:
 *   doctor → diagnose API/quota issues
     
 
-⚡ Quickstart
-------------
+⚡Quickstart
 
-### 1\. Install
+### 1) Install
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   pip install -r requirements.txtpip install -e .   `
+```bash
+pip install -r requirements.txt
+```
 
-### 2\. Configure (Optional)
+Production-style (recommended): install as a package (editable):
 
-Create .env:
+```bash
+pip install -e .
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   OPENAI_API_KEY=your_key_here   `
+### 2) Configure (optional for offline mode)
 
-### 3\. Build Index
+Copy `.env.example` → `.env` and set:
 
-#### Option A — Production (OpenAI Embeddings)
+```bash
+OPENAI_API_KEY=...
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py build --data-path "dataset.xlsx"   `
+If you use multiple OpenAI orgs/projects (project-scoped keys), you may also set:
 
-#### Option B — Offline Mode (Recommended for reliability)
+- `OPENAI_ORG_ID`
+- `OPENAI_PROJECT_ID`
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py build --embedding-backend tfidf --data-path "dataset.xlsx"   `
+### 3) Build the index
 
-### 4\. Ask Questions
+This repo expects your dataset locally (the Excel file is intentionally not tracked in git).
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py ask "Family offices investing in AI in the United States"   `
+OpenAI embeddings:
 
-### 🔍 Retrieval-Only Mode (No LLM)
+```bash
+python app.py build --data-path "path/to/your-dataset.xlsx"
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py ask "Family offices investing in AI" --no-llm   `
+Or via the installed console script:
 
-### 🧪 Debug Mode
+```bash
+polarity-iq build --data-path "path/to/your-dataset.xlsx"
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py ask "query" --raw   `
+Offline TF‑IDF embeddings (no API quota required):
 
-🖥️ Streamlit UI
-----------------
+```bash
+python app.py build --embedding-backend tfidf --data-path "path/to/your-dataset.xlsx"
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   streamlit run streamlit_app.py   `
+Artifacts are written to `./artifacts/` (and are gitignored by default).
 
-Features:
+---
 
-*   Natural language query input
-    
-*   Structured JSON output
-    
-*   Clean demo interface
-    
+## Ask a question
 
-🧪 Testing
-----------
+Default mode (may use chat model for a structured answer):
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py test   `
+```bash
+python app.py ask "Family offices investing in AI in the United States"
+```
 
-🧰 Doctor (Production Debugging)
---------------------------------
+Console script:
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py doctor   `
+```bash
+polarity-iq ask "Family offices investing in AI in the United States"
+```
 
-Advanced probe:
+Retrieval-only (no chat model call):
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   python app.py doctor --probe-embeddings --probe-chat   `
+```bash
+python app.py ask "Family offices investing in AI in the United States" --no-llm
+```
+
+`--no-llm` prints compact JSON: key fields + short evidence + the full dataset `row` payload.
+
+Inspect raw retrieved text blocks (debugging):
+
+```bash
+python app.py ask "Family offices investing in AI in the United States" --raw
+```
+
+---
+
+## Suggested tests
+
+```bash
+python app.py test
+```
+
+Retrieval-only mode:
+
+```bash
+python app.py test --no-llm
+```
+
+---
+
+## Demo UI (Streamlit)
+
+The Streamlit UI calls a local Python wrapper (`ask(query)`) that runs deterministic retrieval + filtering.
+
+1) Build artifacts (offline TF‑IDF recommended if OpenAI quota is unavailable):
+
+```bash
+python app.py build --embedding-backend tfidf --data-path "path/to/your-dataset.xlsx"
+```
+
+2) Start the UI:
+
+```bash
+streamlit run streamlit_app.py
+```
+
+Response JSON format: see [sample_response.json](sample_response.json).
+
+---
+
+## Repo layout
+
+- `src/polarity_iq/` — production package (engine + service + CLI)
+- `app.py` — CLI entrypoints (`build`, `ask`, `test`, `doctor`)
+- `rag_engine.py` — embeddings + indexing + retrieval
+- `rag_service.py` — public service wrapper used by UI / potential API
+- `streamlit_app.py` — demo UI
+- `artifacts/` — generated FAISS index + docs (gitignored)
+
+Note: `app.py`, `rag_engine.py`, `rag_service.py`, and `query_logic.py` are compatibility wrappers; the implementation lives under `src/`.
+
+---
+
+## Dev workflow
+
+```bash
+pip install -r requirements-dev.txt
+ruff check .
+pytest
+```
+
+---
+
+## Notes
+
+- The Excel’s real header row is `header_row=2` (0-based) on the `Family Office Intelligence` sheet.
+- Defaults: `text-embedding-3-small` (embeddings) and `gpt-4o-mini` (chat). Override via `--embedding-model` / `--chat-model`.
+
+---
+
+## Troubleshooting OpenAI quota
+
+If you see `429 insufficient_quota`, it means **API billing/quota** (platform.openai.com) is not available for the org/project tied to your API key (separate from ChatGPT credits).
+
+Run:
+
+```bash
+python app.py doctor
+```
+
+Definitive probe of quota-spending endpoints:
+
+```bash
+python app.py doctor --probe-embeddings --probe-chat
+```
+
+If probes fail with `insufficient_quota`, check:
+
+- You created the key in the correct **Project** with billing enabled
+- Project **budget/spend limits** are not $0 / not exhausted
+- The organization has an active billing method for the API
 
 📊 Retrieval Quality (Manual Evaluation)
 ----------------------------------------
