@@ -33,12 +33,7 @@ This system is intentionally designed with the following principles:
 *   Applies post-filtering (no hallucination layer)
     
 *   Optionally generates structured JSON responses using LLM
-    
-
-🏗️ Architecture Overview
--------------------------
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   User Query   ↓Embedding (OpenAI / TF-IDF)   ↓FAISS Vector Search   ↓Top-K Retrieval   ↓Deterministic Filtering (Location, Sector, Confidence)   ↓(Optional) LLM Formatting Layer   ↓Structured JSON Output   `
+`
 
 🔑 Key Features
 ---------------
@@ -201,7 +196,7 @@ Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQL
 *   **Streamlit (UI)**
     
 *   **Pandas (data processing)**
-    
+
 🔍 Why FAISS?
 -------------
 
