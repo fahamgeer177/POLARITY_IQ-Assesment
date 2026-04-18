@@ -39,10 +39,6 @@ target-version = "py311"
 select = ["E", "F", "I", "UP", "B"]
 ignore = ["E501"]
 
-[tool.ruff.lint]
-select = ["E", "F", "I", "UP", "B"]
-ignore = ["E501"]
-
 # These wrapper files intentionally adjust sys.path before importing the src-layout package.
 [tool.ruff.lint.per-file-ignores]
 "app.py" = ["E402", "I001"]
