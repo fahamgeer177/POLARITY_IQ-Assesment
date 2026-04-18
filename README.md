@@ -21,6 +21,12 @@ A minimal Retrieval-Augmented Generation (RAG) pipeline built for **trustworthy,
 pip install -r requirements.txt
 ```
 
+Production-style (recommended): install as a package (editable):
+
+```bash
+pip install -e .
+```
+
 ### 2) Configure (optional for offline mode)
 
 Copy `.env.example` → `.env` and set:
@@ -44,6 +50,12 @@ OpenAI embeddings:
 python app.py build --data-path "path/to/your-dataset.xlsx"
 ```
 
+Or via the installed console script:
+
+```bash
+polarity-iq build --data-path "path/to/your-dataset.xlsx"
+```
+
 Offline TF‑IDF embeddings (no API quota required):
 
 ```bash
@@ -60,6 +72,12 @@ Default mode (may use chat model for a structured answer):
 
 ```bash
 python app.py ask "Family offices investing in AI in the United States"
+```
+
+Console script:
+
+```bash
+polarity-iq ask "Family offices investing in AI in the United States"
 ```
 
 Retrieval-only (no chat model call):
@@ -114,11 +132,24 @@ Response JSON format: see [sample_response.json](sample_response.json).
 
 ## Repo layout
 
+- `src/polarity_iq/` — production package (engine + service + CLI)
 - `app.py` — CLI entrypoints (`build`, `ask`, `test`, `doctor`)
 - `rag_engine.py` — embeddings + indexing + retrieval
 - `rag_service.py` — public service wrapper used by UI / potential API
 - `streamlit_app.py` — demo UI
 - `artifacts/` — generated FAISS index + docs (gitignored)
+
+Note: `app.py`, `rag_engine.py`, `rag_service.py`, and `query_logic.py` are compatibility wrappers; the implementation lives under `src/`.
+
+---
+
+## Dev workflow
+
+```bash
+pip install -r requirements-dev.txt
+ruff check .
+pytest
+```
 
 ---
 

@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pandas as pd
 import streamlit as st
 
 from rag_service import ask
-
 
 EXAMPLE_QUERIES = [
     "Family offices investing in AI in the United States",
@@ -167,7 +166,7 @@ def main() -> None:
         resp = ask(query.strip(), k=k, strict_mode=strict_mode)
         st.session_state.last_run = {
             "query": query.strip(),
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": datetime.now(UTC).isoformat(),
             "elapsed_ms": resp.elapsed_ms,
             "retrieved_before_filter": resp.retrieved_before_filter,
             "strict_mode": resp.strict_mode,
@@ -188,7 +187,7 @@ def main() -> None:
         )
 
         if shortlist:
-            for i, item in enumerate(shortlist):
+            for item in shortlist:
                 st.markdown(
                     f"**{item.get('family_office_name','—')}**  \
 {item.get('location','—')}"
